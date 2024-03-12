@@ -20,7 +20,7 @@ python3 -m EasyLM.models.llama.llama_train \
     --update_llama_config='' \
     --load_dataset_state='' \
     --load_checkpoint='' \
-    --tokenizer.vocab_file='tokenizer.model' \
+    --tokenizer.pretrained_model_name_or_path='mimir-project/tokenizer' \
     --optimizer.type='lion' \
     --optimizer.lion_optimizer.weight_decay=1.0 \
     --optimizer.lion_optimizer.lr_schedule_type='warmup_constant' \
