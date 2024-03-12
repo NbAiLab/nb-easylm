@@ -164,9 +164,12 @@ class HuggingfaceDataset(object):
         split = self.config.split if self.config.split != '' else None
         self._tokenizer = tokenizer
         self._text_processor = text_processor
-        self._dataset = load_from_disk(
-            self.config.path
-        )[split]
+        # self._dataset = load_from_disk(
+        #     self.config.path
+        # )[split]
+        self._dataset = load_dataset(
+            self.config.path, name, split=split, streaming=self.config.streaming, data_dir=f"{self.config.path}/data", 
+        )
         self._dataset = self._dataset.to_iterable_dataset(num_shards=128 if len(self._dataset) > 128 else len(self._dataset))
         self._eval_dataset = eval_dataset
         self._train_epochs = 0
