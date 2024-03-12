@@ -25,7 +25,7 @@ python3 -m EasyLM.models.llama.llama_train \
     --optimizer.lion_optimizer.weight_decay=1.0 \
     --optimizer.lion_optimizer.lr_schedule_type='warmup_constant' \
     --optimizer.lion_optimizer.lr=1e-4 \
-    --optimizer.lion_optimizer.end_lr=1e-5 \'
+    --optimizer.lion_optimizer.end_lr=1e-5 \
     --optimizer.lion_optimizer.lr_warmup_steps=60000 \
     --optimizer.lion_optimizer.lr_decay_steps=100000 \
     --optimizer.lion_optimizer.bf16_momentum=True \
