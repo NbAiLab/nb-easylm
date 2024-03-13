@@ -34,9 +34,10 @@ python3 -m EasyLM.models.llama.llama_train \
     --train_dataset.text_processor.add_eos_token=True \
     --train_dataset.text_processor.add_bos_token=True \
     --train_dataset.huggingface_dataset.path='/share/mimir-base' \
+    --train_dataset.huggingface_dataset.name='default' \
     --train_dataset.huggingface_dataset.split='train' \
     --train_dataset.huggingface_dataset.seq_length=2048 \
-    --train_dataset.huggingface_dataset.batch_size=64 \
+    --train_dataset.huggingface_dataset.batch_size=128 \
     --eval_dataset.type='huggingface' \
     --eval_dataset.text_processor.fields='text' \
     --eval_dataset.text_processor.add_eos_token=True \
@@ -44,11 +45,11 @@ python3 -m EasyLM.models.llama.llama_train \
     --eval_dataset.huggingface_dataset.path='/share/mimir-base' \
     --eval_dataset.huggingface_dataset.split='validation' \
     --eval_dataset.huggingface_dataset.seq_length=2048 \
-    --eval_dataset.huggingface_dataset.batch_size=64 \
+    --eval_dataset.huggingface_dataset.batch_size=128 \
     --checkpointer.save_optimizer_state=True \
     --logger.online=True \
     --logger.prefix='EasyLM' \
     --logger.project="llama-1b" \
     --logger.output_dir="gs://mimir-train-us/llama-1b-checkpoint" \
-    --logger.wandb_dir="./"
+    --logger.wandb_dir="$HOME/wandb"
 
