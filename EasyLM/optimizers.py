@@ -136,6 +136,7 @@ class AdamWOptimizerFactory(object):
         config.lr_decay_steps = 500000
         config.b1 = 0.9
         config.b2 = 0.95
+        config.eps = 1e-8
         config.clip_gradient = 1.0
         config.weight_decay = 1e-4
         config.bf16_momentum = False

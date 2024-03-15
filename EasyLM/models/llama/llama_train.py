@@ -5,6 +5,9 @@ from tqdm import tqdm, trange
 import numpy as np
 import mlxu
 
+from jax_smi import initialise_tracking
+initialise_tracking()
+
 import jax
 import jax.numpy as jnp
 from jax.experimental.pjit import pjit

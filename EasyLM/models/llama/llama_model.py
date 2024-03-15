@@ -52,7 +52,7 @@ LLAMA_STANDARD_CONFIGS = {
         'rms_norm_eps': 1e-6,
         'use_cache': True,
         'tie_word_embeddings': False,
-    }
+    },
     'small': {
         'vocab_size': 64256,
         'hidden_size': 768,

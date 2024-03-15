@@ -9,7 +9,7 @@ export LIBTPU_INIT_ARGS='--xla_jf_spmd_threshold_for_windowed_einsum_mib=0 --xla
 
 python3 -m EasyLM.models.llama.llama_train \
     --jax_distributed.initialize_jax_distributed=True \
-    --mesh_dim='1,-1,4' \
+    --mesh_dim='-1,8,1' \
     --dtype='bf16' \
     --total_steps=900000 \
     --eval_freq=50000 \
@@ -37,7 +37,7 @@ python3 -m EasyLM.models.llama.llama_train \
     --train_dataset.huggingface_dataset.name='default' \
     --train_dataset.huggingface_dataset.split='train' \
     --train_dataset.huggingface_dataset.seq_length=2048 \
-    --train_dataset.huggingface_dataset.batch_size=128 \
+    --train_dataset.huggingface_dataset.batch_size=256 \
     --eval_dataset.type='huggingface' \
     --eval_dataset.text_processor.fields='text' \
     --eval_dataset.text_processor.add_eos_token=True \
@@ -51,5 +51,5 @@ python3 -m EasyLM.models.llama.llama_train \
     --logger.prefix='EasyLM' \
     --logger.project="llama-1b" \
     --logger.output_dir="gs://mimir-train-us/llama-1b-checkpoint" \
-    --logger.wandb_dir="$HOME/wandb"
-
+    --logger.wandb_dir="$HOME/wandb" \
+|& tee $HOME/output.txt
