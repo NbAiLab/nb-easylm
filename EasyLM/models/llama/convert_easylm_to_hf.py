@@ -43,8 +43,15 @@ FLAGS, FLAGS_DEF = mlxu.define_flags_with_default(
     output_dir='',
 )
 
-
 LLAMA_STANDARD_CONFIGS = {
+    'control': {
+        'vocab_size': 32768,
+        'dim': 2048,
+        'intermediate_size': 5504,
+        'n_layers': 27,
+        'n_heads': 32,
+        'norm_eps': 1e-6,
+    },
     'small': {
         'vocab_size': 64256,
         'dim': 768,
