@@ -8,6 +8,7 @@ import mlxu
 from jax_smi import initialise_tracking
 initialise_tracking()
 
+import flax
 import jax
 import jax.numpy as jnp
 from jax.experimental.pjit import pjit
@@ -223,7 +224,8 @@ def main(argv):
             train_state = sharded_init_fn(next_rng())
         elif train_state is None and restored_params is not None:
             # Restore from params but initialize train_state
-            train_state = sharded_create_trainstate_from_params(restored_params)
+            # train_state = sharded_create_trainstate_from_params(restored_params)
+            train_state = sharded_create_trainstate_from_params(flax.core.frozen_dict.unfreeze(restored_params))
             del restored_params
 
         start_step = int(jax.device_get(train_state.step))
