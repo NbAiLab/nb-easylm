@@ -231,6 +231,7 @@ class HuggingfaceDataset(object):
     def _shuffle(self):
         # Disabling shuffling
         # self._dataset = self._dataset.shuffle(buffer_size=100)
+        pass
 
     def get_state_dict(self):
         return dict(
