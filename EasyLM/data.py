@@ -185,9 +185,13 @@ class HuggingfaceDataset(object):
             loss_mask_buffer = []
             if not self._eval_dataset:
                 self._shuffle()
+            if self._dataset_loc:
+                print(f"Seeking dataset to location {self._dataset_loc}...")
             for index, example in enumerate(self._dataset):
                 self._index = index
                 if not self._eval_dataset and self._dataset_loc > index:
+                    if index % 10000 == 0:
+                        print(f"Seeked {index} documents")
                     continue
                 tokens, loss_masks = self.text_processor(example)
                 token_buffer.extend(tokens)
@@ -225,7 +229,8 @@ class HuggingfaceDataset(object):
                 print(f"TRAIN {self._train_epochs} EPOCH DONE")
 
     def _shuffle(self):
-        self._dataset = self._dataset.shuffle(buffer_size=100)
+        # Disabling shuffling
+        # self._dataset = self._dataset.shuffle(buffer_size=100)
 
     def get_state_dict(self):
         return dict(
