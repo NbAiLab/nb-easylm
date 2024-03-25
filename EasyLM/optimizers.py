@@ -187,6 +187,7 @@ class AdamWOptimizerFactory(object):
                     weight_decay=config.weight_decay,
                     b1=config.b1,
                     b2=config.b2,
+                    eps=config.eps,
                     mask=weight_decay_mask,
                     mu_dtype=jnp.bfloat16 if config.bf16_momentum else jnp.float32,
                 ),
