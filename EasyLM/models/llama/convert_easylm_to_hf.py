@@ -35,7 +35,6 @@ from transformers import LlamaConfig, LlamaForCausalLM
 from EasyLM.checkpoint import StreamingCheckpointer
 from EasyLM.jax_utils import float_tensor_to_dtype
 
-
 FLAGS, FLAGS_DEF = mlxu.define_flags_with_default(
     load_checkpoint='',
     tokenizer_path='',
@@ -186,11 +185,11 @@ def write_model(loaded, model_path, model_size):
     def permute(w):
         return w.view(n_heads, dim // n_heads // 2, 2, dim).transpose(1, 2).reshape(dim, dim)
 
-
     param_count = 0
     index_dict = {"weight_map": {}}
     for layer_i in range(n_layers):
         filename = f"pytorch_model-{layer_i + 1}-of-{n_layers + 1}.bin"
+        loaded = {k.replace("params.params.", ""): v for k, v in loaded.items()}
         state_dict = {
             f"model.layers.{layer_i}.self_attn.q_proj.weight": permute(
                 loaded[f"transformer.h.{layer_i}.attention.wq.kernel"]
@@ -206,7 +205,8 @@ def write_model(loaded, model_path, model_size):
             f"model.layers.{layer_i}.mlp.up_proj.weight": loaded[f"transformer.h.{layer_i}.feed_forward.w3.kernel"],
 
             f"model.layers.{layer_i}.input_layernorm.weight": loaded[f"transformer.h.{layer_i}.attention_norm.kernel"],
-            f"model.layers.{layer_i}.post_attention_layernorm.weight": loaded[f"transformer.h.{layer_i}.ffn_norm.kernel"],
+            f"model.layers.{layer_i}.post_attention_layernorm.weight": loaded[
+                f"transformer.h.{layer_i}.ffn_norm.kernel"],
 
         }
 
@@ -217,7 +217,7 @@ def write_model(loaded, model_path, model_size):
         torch.save(state_dict, os.path.join(tmp_model_path, filename))
 
     filename = f"pytorch_model-{n_layers + 1}-of-{n_layers + 1}.bin"
-        # Unsharded
+    # Unsharded
     state_dict = {
         "model.embed_tokens.weight": loaded["transformer.wte.embedding"],
         "model.norm.weight": loaded["transformer.ln_f.kernel"],
@@ -328,7 +328,7 @@ def write_tokenizer(tokenizer_path, input_tokenizer_path):
 
 
 def main(argv):
-    assert FLAGS.load_checkpoint != "" and FLAGS.output_dir != ""# and FLAGS.tokenizer_path != ""
+    assert FLAGS.load_checkpoint != "" and FLAGS.output_dir != ""  # and FLAGS.tokenizer_path != ""
     assert FLAGS.model_size in LLAMA_STANDARD_CONFIGS
     # write_tokenizer(
     #     tokenizer_path=FLAGS.output_dir,
